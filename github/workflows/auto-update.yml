@@ -44,7 +44,7 @@ jobs:
           repository: GamingAPI/definitions
           path: "./definitions"
       - name: Get the version of the API
-        run: echo "document_current_version=$(cat ./definitions/<<[ .cus.ASYNCAPI_FILE ]>> | jq -r '.info.version' | sed 's/v//')" >> $GITHUB_ENV
+        run: echo "document_current_version=$(cat ./definitions/bundled/<<[ .cus.ASYNCAPI_FILE ]>> | jq -r '.info.version' | sed 's/v//')" >> $GITHUB_ENV
       
       # Figure out how the template version have changed
       - run: semver_template_last_version=( ${template_last_version//./ } ) && major_template_last_version=${semver_template_last_version[0]} && echo "major_template_last_version=$major_template_last_version" >> $GITHUB_ENV

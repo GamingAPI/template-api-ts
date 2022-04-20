@@ -21,7 +21,7 @@ do
 done
 
 # Remove previous GitHub source
-rm .github
+rm -rf .github
 
 # Move GH folder
 mv github .github

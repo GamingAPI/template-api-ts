@@ -20,10 +20,14 @@ do
   fi
 done
 
+# Remove previous GitHub source
+rm .github
+
+# Move GH folder
+mv github .github
+
 # Clean up / implode
 rm README.md
-# mv README_TEMPLATE.md README.md
-mv github .github
 rm customize
 rm customize.json
 

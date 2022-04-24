@@ -19,6 +19,13 @@ do
          -c cus=./customize.json
   fi
 done
+ 
+if [ -f "./configs.json" ]; then
+  # Merge configs and only add new properties to the existing config file.
+  contents="$(jq -s '.[0] * .[1]' configs_template.json configs.json)" && echo "${contents}" > configs.json
+else
+  mv configs_template.json configs.json
+fi
 
 # Remove previous GitHub source
 rm -rf .github
@@ -29,5 +36,6 @@ mv github .github
 # Clean up / implode
 rm README.md
 rm customize
+rm configs_template.json
 rm customize.json
 

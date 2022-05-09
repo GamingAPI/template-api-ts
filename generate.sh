@@ -69,15 +69,14 @@ elif (($patch_document_current_version > $patch_document_last_version && $minor_
 fi
 
 if $major_version_change == 'true' || $minor_version_change == 'true' || $patch_version_change == 'true'; then
-  # Remove previous files to ensure clean slate
+  # Remove all generated files to ensure clean slate
   find . -not \( -name configs.json -or -name .gitignore -or -name LICENSE -or -name custom_package.json -or -name generate.sh -or -iwholename *.github* -or -iwholename *./definitions* -or -iwholename *.git* -or -name . \) -exec rm -rf {} +
 
-  # Generating client from the AsyncAPI document
   if ! command -v ag &> /dev/null
   then
     npm install -g @asyncapi/generator
   fi
-
+  # Generating code from the AsyncAPI document
   ag --force-write --output ./ ./definitions/bundled/<<[ .cus.ASYNCAPI_FILE ]>> @asyncapi/ts-nats-template
 
   # Write new config file to ensure we keep the new state for next time
@@ -88,7 +87,6 @@ if $major_version_change == 'true' || $minor_version_change == 'true' || $patch_
   jq -s '.[0] * .[1]' ./package.json ./custom_package.json > ./package_tmp.json
   rm ./package.json
   mv ./package_tmp.json ./package.json
-  rm -rf ./definitions
   npm i
 fi
 mkdir -p ./.github/variables

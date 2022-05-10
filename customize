@@ -5,7 +5,7 @@ command -v tree >/dev/null 2>&1 || { echo >&2 "I require tree but it's not insta
 # https://formulae.brew.sh/formula/gomplate
 command -v gomplate >/dev/null 2>&1 || { echo >&2 "I require gomplate but it's not installed. Aborting."; exit 1; }
 
-ignore_files=".git|_templates|customize|README.md"
+ignore_files=".git|_templates|customize|template_README.md"
 
 for input_file in `tree -I "${ignore_files}" -Ffai --noreport`
 do
@@ -19,7 +19,7 @@ do
       -c cus=./customize.json
   fi
 done
- 
+
 if [ -f "./configs.json" ]; then
   # Merge configs and only add new properties to the existing config file.
   contents="$(jq -s '.[0] * .[1]' initial_configs.json configs.json)" && echo "${contents}" > configs.json
@@ -38,7 +38,7 @@ rm -rf .github
 mv github .github
 
 # Clean up / implode
-rm README.md
+rm template_README.md
 rm customize
 rm initial_configs.json
 rm initial_package.json

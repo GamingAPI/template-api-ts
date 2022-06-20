@@ -19,10 +19,13 @@ commit_message=""
 document_last_version=$(cat ./configs.json | jq -r '.document_last_version')
 template_last_version=$(cat ./configs.json | jq -r '.template_last_version')
 library_last_version=$(cat ./package.json | jq -r '.version')
-url_to_asyncapi_document="https://raw.githubusercontent.com/GamingAPI/definitions/main/bundled/<<[ .cus.ASYNCAPI_FILE ]>>"
 
-template_current_version=$(curl -sL https://api.github.com/repos/asyncapi/ts-nats-template/releases/latest | jq -r '.tag_name' | sed 's/v//')
+template_to_use="asyncapi/ts-nats-template"
+template_current_version=$(curl -sL https://raw.githubusercontent.com/${template_to_use}/master/package.json | jq -r '.version' | sed 's/v//')
+
+url_to_asyncapi_document="https://raw.githubusercontent.com/GamingAPI/definitions/main/bundled/<<[ .cus.ASYNCAPI_FILE ]>>"
 document_current_version=$(curl -sL ${url_to_asyncapi_document} | jq -r '.info.version' | sed 's/v//')
+
 
 # Split the last used template version by '.' to split it up into 'major.minor.fix'
 semver_template_last_version=${template_last_version//./}
@@ -86,7 +89,7 @@ if $major_version_change == 'true' || $minor_version_change == 'true' || $patch_
     npm install -g @asyncapi/generator
   fi
   # Generating code from the AsyncAPI document
-  ag --force-write --output ./ ${url_to_asyncapi_document} @asyncapi/ts-nats-template
+  ag --force-write --output ./ ${url_to_asyncapi_document} https://github.com/${template_to_use}
 
   # Write new config file to ensure we keep the new state for next time
   contents="$(jq ".template_last_version = \"$template_current_version\" | .document_last_version = \"$document_current_version\"" configs.json)" && echo "${contents}" > configs.json

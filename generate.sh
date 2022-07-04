@@ -103,8 +103,8 @@ if $major_version_change == 'true' || $minor_version_change == 'true' || $patch_
 fi
 mkdir -p ./.github/variables
 echo "
-major_version_change=\"$major_version_change\"
-minor_version_change=\"$minor_version_change\"
-patch_version_change=\"$patch_version_change\"
-commit_message=\"$commit_message\"
+major_version_change=$major_version_change
+minor_version_change=$minor_version_change
+patch_version_change=$patch_version_change
+commit_message=$commit_message
 " > ./.github/variables/generator.env

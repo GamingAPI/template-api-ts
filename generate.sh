@@ -28,12 +28,12 @@ document_current_version=$(curl -sL ${url_to_asyncapi_document} | jq -r '.info.v
 
 
 # Split the last used template version by '.' to split it up into 'major.minor.fix'
-semver_template_last_version=${template_last_version//./}
+semver_template_last_version=( ${template_last_version//./ } )
 major_template_last_version=${semver_template_last_version[0]}
 minor_template_last_version=${semver_template_last_version[1]}
 patch_template_last_version=${semver_template_last_version[2]}
 # Split the current template version by '.' to split it up into 'major.minor.fix'
-semver_template_current_version=${template_current_version//./ }
+semver_template_current_version=( ${template_current_version//./ } )
 major_template_current_version=${semver_template_current_version[0]}
 minor_template_current_version=${semver_template_current_version[1]}
 patch_template_current_version=${semver_template_current_version[2]}
@@ -42,12 +42,12 @@ if [[ $minor_template_current_version > $minor_template_last_version ]]; then mi
 if [[ $patch_template_current_version > $patch_template_last_version ]]; then patch_template_change="true"; else patch_template_change="false"; fi
 
 # Split the last used AsyncAPI document version by '.' to split it up into 'major.minor.fix'
-semver_document_last_version=${document_last_version//./}
+semver_document_last_version=( ${document_last_version//./ } )
 major_document_last_version=${semver_document_last_version[0]}
 minor_document_last_version=${semver_document_last_version[1]}
 patch_document_last_version=${semver_document_last_version[2]}
 # Split the current AsyncAPI document version by '.' to split it up into 'major.minor.fix'
-semver_document_current_version=${document_current_version//./}
+semver_document_current_version=( ${document_current_version//./ } )
 major_document_current_version=${semver_document_current_version[0]}
 minor_document_current_version=${semver_document_current_version[1]}
 patch_document_current_version=${semver_document_current_version[2]}

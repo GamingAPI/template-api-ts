@@ -31,15 +31,18 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           title: "feat!: major version change"
+          body: ${{env.commit_message}}
 
       - name: Create pull request for minor version if needed
         if: ${{env.minor_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v4
         with:
           title: "feat: minor version change"
+          body: ${{env.commit_message}}
 
       - name: Create pull request for patch version if needed
         if: ${{env.patch_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v4
         with:
           title: "fix: patch version change"
+          body: ${{env.commit_message}}

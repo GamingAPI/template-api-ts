@@ -56,31 +56,31 @@ if [[ $minor_document_current_version > $minor_document_last_version ]]; then mi
 if [[ $patch_document_current_version > $patch_document_last_version ]]; then patch_document_change="true"; else patch_document_change="false"; fi
 
 # Set the commit messages that details what changed
-if (($major_template_change == 'true')); then
+if [ $major_template_change == "true" ]; then
   commit_message="Template have changed to a new major version."
-elif (($minor_template_change == 'true')); then
+elif [ $minor_template_change == "true" ]; then
   commit_message="Template have changed to a new minor version."
-elif (($patch_template_change == 'true')); then
+elif [ $patch_template_change == "true" ]; then
   commit_message="Template have changed to a new patch version."
 fi
-if (($major_document_change == 'true')); then
+if [ $major_document_change == "true" ]; then
   commit_message="${commit_message}AsyncAPI document have changed to a new major version."
-elif (($minor_document_change == 'true')); then
+elif [ $minor_document_change == "true" ]; then
   commit_message="${commit_message}AsyncAPI document have changed to a new minor version."
-elif (($patch_document_change == 'true')); then
+elif [ $patch_document_change == "true" ]; then
   commit_message="${commit_message}AsyncAPI document have changed to a new patch version."
 fi
 
 # Always use the most aggressive version change, and only do one type of version change
-if (($major_template_change == 'true' || $major_document_change == 'true')); then
+if [ $major_template_change == "true" ] || [ $major_document_change == "true" ]; then
   major_version_change="true"
-elif (($minor_template_change == 'true' || $minor_document_change == 'true')); then
+elif [ $minor_template_change == "true" ] || [ $minor_document_change == "true" ]; then
   minor_version_change="true"
-elif (($patch_template_change == 'true' || $patch_document_change == 'true')); then
+elif [ $patch_template_change == "true" ] || [ $patch_document_change == "true" ]; then
   patch_version_change="true"
 fi
 
-if $major_version_change == 'true' || $minor_version_change == 'true' || $patch_version_change == 'true'; then
+if [ $major_version_change == "true" ] || [ $minor_version_change == "true" ] || [ $patch_version_change == "true" ]; then
   # Remove all generated files to ensure clean slate
   find . -not \( -name configs.json -or -name .gitignore -or -name LICENSE -or -name custom_package.json -or -name generate.sh -or -iwholename *.github* -or -iwholename *.git* -or -name . \) -exec rm -rf {} +
 
